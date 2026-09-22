@@ -17,7 +17,7 @@ const children = [
       "--ip",
       "127.0.0.1",
       "--port",
-      "8787",
+      "27528",
     ],
     { stdio: "inherit" },
   ),

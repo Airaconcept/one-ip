@@ -24,7 +24,7 @@ export default {
     if (!url.pathname.startsWith("/api/")) {
       if (env.LOCAL_DEV === "true") {
         url.hostname = "127.0.0.1";
-        url.port = "5137";
+        url.port = "27529";
         url.protocol = "http:";
         return fetch(new Request(url, request));
       }

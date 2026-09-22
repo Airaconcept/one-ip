@@ -7,6 +7,7 @@ import { ShareSite } from "@/components/share-site";
 import { ThemeToggleButton } from "@/components/theme/theme-toggle-button";
 import { Pending } from "@/components/toolkit";
 import { AnimatedSegmentedTabs } from "@/components/ui/animated-segmented-tabs";
+import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { UnderlineHover } from "@/components/underline-hover";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -88,6 +89,9 @@ export function AppLayout() {
             <img src="/icon.svg" width="24" height="24" alt="" />
           </Link>
           <div className="flex items-center gap-1">
+            <Button asChild variant="ghost" size="sm">
+              <Link to="/dashboard">{t("控制台")}</Link>
+            </Button>
             <ShareSite />
             <LanguageSelect />
             <ThemeToggleButton className="size-8 rounded-full text-muted-foreground" />
@@ -124,6 +128,9 @@ export function AppLayout() {
                 <ScrollBar orientation="horizontal" />
               </ScrollArea>
               <div className="desktop-preferences flex items-center gap-1">
+                <Button asChild variant="ghost" size="sm">
+                  <Link to="/dashboard">{t("控制台")}</Link>
+                </Button>
                 <ShareSite />
                 <LanguageSelect />
                 <ThemeToggleButton className="size-9 shrink-0 rounded-lg text-muted-foreground" />

@@ -1,4 +1,5 @@
-.PHONY: deploy
-deploy: update-version
-	$(PNPM) build
-	$(PNPM) exec wrangler deploy --env=""
+.PHONY: deploy deploy-stage
+deploy:
+	$(MAKE) -C ../backend deploy-web
+deploy-stage:
+	$(MAKE) -C ../backend deploy-stage-web

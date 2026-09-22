@@ -27,6 +27,20 @@ IP 查询、网络诊断、浏览器检测与 AI 服务状态工具箱。
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fzhihui-hu%2Fone-ip)
 
+## 商业版本（commercial）
+
+当前商业版保留原有 IP 工具，增加 `/login` 和 `/dashboard/admin`，管理功能包括用户、角色、权限、登录日志与操作日志。Rust 后端基于 [one-template 模块结构](../backend/README.md)，通过 One User 登录。
+
+```sh
+cd ../backend
+# 填写 .env.dev 中 One IP 的 One User 客户端凭据
+make dev  # Rust 27528 + Vite 27529 + 本地诊断 Worker 8787
+```
+
+商业版使用后端 Make 入口；原有 `make worker-dev` 是开源版 Worker 统一入口，会占用 27528，不要与商业后端同时运行。开发期仍由现有 Worker 执行诊断，未把诊断算法搬到 Rust。商业 API 上线需要在 One Action 与 Cloudflare 注册生产路由，不能直接按下文开源部署流程发布商业版。
+
+本分支暂未实现套餐、计费、API Key 和额度。One User 授权回调及公网诊断结果需要真实客户端/生产路由验证。
+
 ## Cloudflare 部署教程
 
 1. [Fork 本项目](https://github.com/zhihui-hu/one-ip/fork)到你的 GitHub 账号。
@@ -75,7 +89,7 @@ curl -fsS 'https://ip.huzhihui.com/api/ip/health?ip=1.1.1.1'
 curl -fsS 'https://ip.huzhihui.com/api/ip/health?ip=2606:4700:4700::1111&format=text'
 ```
 
-自部署时替换域名。本地开发使用 `http://127.0.0.1:8787`，必须指定 `ip`。省略 `ip` 时使用 Cloudflare 识别的本次请求出口；经过代理时会查询代理出口。
+自部署时替换域名。本地开发使用 `http://127.0.0.1:27528`，必须指定 `ip`。省略 `ip` 时使用 Cloudflare 识别的本次请求出口；经过代理时会查询代理出口。
 
 返回 `ip`、`checked_at`、`score`、`status`、位置、ISP、ASN 和 `flags`（住宅、数据中心、移动网络、VPN、代理、Tor、爬虫、滥用标记）。信誉分范围 0–100，越高越好；与网页相同，75–100 为 `good`、45–74 为 `moderate`、低于 45 为 `poor`。缺失或无效分数返回 `score: null`、`status: "unknown"`；缺失标记返回 `null`，不视为 `false`。
 
@@ -133,7 +147,7 @@ pnpm install --frozen-lockfile
 pnpm worker:dev
 ```
 
-打开 `http://127.0.0.1:8787`。命令启动 Vite 和本地 Worker，支持热更新。启动脚本为本地进程设置 `LOCAL_DEV=true`，无需修改 Wrangler 配置。
+打开 `http://127.0.0.1:27528`。命令启动 Vite（27529）和本地 Worker（27528），支持热更新。启动脚本为本地进程设置 `LOCAL_DEV=true`，无需修改 Wrangler 配置。
 
 ```bash
 pnpm build

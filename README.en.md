@@ -39,7 +39,7 @@ curl -fsS 'https://ip.huzhihui.com/api/ip/health?ip=1.1.1.1'
 curl -fsS 'https://ip.huzhihui.com/api/ip/health?ip=2606:4700:4700::1111&format=text'
 ```
 
-Replace the domain for your deployment. Local development uses `http://127.0.0.1:8787` and requires `ip`. Without `ip`, the API uses the caller address identified by Cloudflare; a proxy changes that egress address.
+Replace the domain for your deployment. Local development uses `http://127.0.0.1:27528` and requires `ip`. Without `ip`, the API uses the caller address identified by Cloudflare; a proxy changes that egress address.
 
 Returns `ip`, `checked_at`, `score`, `status`, location, ISP, ASN and `flags` (residential, datacenter, mobile, VPN, proxy, Tor, crawler, abuser). The trust score ranges from 0 to 100, higher is better. Matching the UI, 75–100 is `good`, 45–74 is `moderate`, below 45 is `poor`. Missing or invalid scores yield `score: null` and `status: "unknown"`; missing flags are `null`, not `false`.
 
@@ -129,7 +129,7 @@ pnpm install --frozen-lockfile
 pnpm worker:dev
 ```
 
-Open `http://127.0.0.1:8787`. The command starts Vite and the local Worker with hot reload. The launcher sets `LOCAL_DEV=true` for the local process, with no changes to your Wrangler configuration.
+Open `http://127.0.0.1:27528`. The command starts Vite (27529) and the local Worker (27528) with hot reload. The launcher sets `LOCAL_DEV=true` for the local process, with no changes to your Wrangler configuration.
 
 ```bash
 pnpm build

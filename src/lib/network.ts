@@ -35,12 +35,15 @@ export async function request<T>(
           try {
             const body = await response.json();
             if (typeof body.error === "string") message = t(body.error);
+            else if (typeof body.message === "string")
+              message = t(body.message);
           } catch {
             /* Non-JSON upstream. */
           }
           throw new HttpRequestError(response.status, message);
         }
         if (mode === "headers") return response.headers as T;
+        if (response.status === 204 && mode === "json") return undefined as T;
         return (
           mode === "text" ? response.text() : response.json()
         ) as Promise<T>;

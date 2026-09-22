@@ -64,14 +64,16 @@ export default defineConfig(() => {
     },
     server: {
       host: "127.0.0.1",
-      port: 5137,
-      hmr: { clientPort: 8787 },
+      port: 27529,
+      hmr: { clientPort: 27529 },
       strictPort: true,
       open: false,
       headers,
+      allowedHosts: ["one-ip-web.marseo.eu.org"],
       proxy: {
+        "/callback": { target: "http://127.0.0.1:27528", changeOrigin: false },
         "/api": {
-          target: "http://127.0.0.1:8787",
+          target: "http://127.0.0.1:27528",
           changeOrigin: false,
         },
       },

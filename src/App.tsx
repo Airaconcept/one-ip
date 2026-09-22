@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import {
   Link,
   Navigate,
@@ -15,6 +15,13 @@ import { legacyRoutes } from "@/layout/routes";
 import { ToolLayout } from "@/layout/tool-layout";
 import { aiPlatforms } from "@/views/ai/platforms";
 
+const CommercialLayout = lazy(() =>
+  import("@/views/dashboard/route").then((module) => ({
+    default: module.CommercialLayout,
+  })),
+);
+const LoginPage = lazy(() => import("@/views/login"));
+const AdminPage = lazy(() => import("@/views/dashboard/admin"));
 const PlatformDiagnostics = lazy(() => import("@/views/ai"));
 const ModuleOverview = lazy(() => import("@/views/module-overview"));
 const HomePage = lazy(() => import("@/views/home"));
@@ -52,6 +59,32 @@ function Redirect({ to }: { to: string }) {
 export function App() {
   return (
     <Routes>
+      <Route
+        path="login"
+        element={
+          <Suspense fallback={<p role="status">正在加载…</p>}>
+            <LoginPage />
+          </Suspense>
+        }
+      />
+      <Route
+        path="dashboard"
+        element={
+          <Suspense fallback={<p role="status">正在加载…</p>}>
+            <CommercialLayout />
+          </Suspense>
+        }
+      >
+        <Route index element={<Navigate replace to="admin" />} />
+        <Route
+          path="admin"
+          element={
+            <Suspense fallback={<p role="status">正在加载…</p>}>
+              <AdminPage />
+            </Suspense>
+          }
+        />
+      </Route>
       <Route element={<AppLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="docs/api" element={<ApiUsagePage />} />

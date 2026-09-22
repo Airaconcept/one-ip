@@ -59,3 +59,15 @@ export function ResponsiveDialog({
     </Dialog>
   );
 }
+
+export {
+  ResponsiveDialogRoot,
+  ResponsiveDialogTrigger,
+  ResponsiveDialogClose,
+  ResponsiveDialogContent,
+  ResponsiveDialogHeader,
+  ResponsiveDialogFooter,
+  ResponsiveDialogTitle,
+  ResponsiveDialogDescription,
+  ResponsiveDialogBody,
+} from "./responsive-dialog/primitives";
